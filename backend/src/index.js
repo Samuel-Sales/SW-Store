@@ -21,6 +21,19 @@ app.get('/', (req, res) => {
     res.send('API Online 🚀');
 });
 
+// Mapeia os estados da conexao
+const dbStates = {
+    0: "disconnected",
+    1: "connected",
+    2: "connecting",
+    3: "disconnecting",
+};
+
+app.get('/health', (req, res) => {
+    const state = dbStates[mongoose.connection.readyState] || "unknown";
+    res.json({ status: "ok", dbState: state });
+});
+
 app.listen(PORT, () => {
     console.log(` 🚀 Servidor rodando na porta ${PORT}`);
 });
